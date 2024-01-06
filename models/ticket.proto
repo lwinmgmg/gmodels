@@ -1,0 +1,59 @@
+syntax = "proto3";
+
+option go_package = "github.com/lwinmgmg/gmodels/golang/models/ticket";
+
+enum TicketState {
+    AVAILABLE = 0;
+    RESERVED = 1;
+    SOLD = 2;
+}
+
+message Ticket{
+    uint64 ID = 1;
+    uint64 CreatedAt = 2;
+    uint64 UpdatedAt = 3;
+    uint64 Number = 4;
+    uint64 TicketHeaderID = 5;
+    string UserCode = 6;
+    bool IsSpecialPrice = 7;
+    float SpecialPrice = 8;
+    TicketState state = 9;
+}
+
+enum TicketHeaderState {
+	DRAFT  = 0;
+	POSTED = 1;
+	DONE   = 2;
+}
+
+message TicketHeader{
+    uint64 ID = 1;
+    string Name = 2;
+    string Description = 3;
+    uint64 StartNum = 4;
+    uint64 EndNum = 5;
+    uint64 StartDate = 6;
+    uint64 EndDate = 7;
+    TicketHeaderState State = 8;
+    uint64 WinnerNum = 9;
+    uint64 AvailableCount = 10;
+    uint64 ReservedCount = 11;
+    uint64 SoldCount = 12;
+    float Price = 13;
+    uint64 CreatedAt = 14;
+    uint64 UpdatedAt = 15;
+    uint64 ErpUserID = 16;
+}
+
+message HeaderRequest{
+    uint64 HeaderID = 1;
+}
+
+message TicketReponse{
+    repeated Ticket Tickets = 1;
+}
+
+service TicketService{
+    rpc GetTicketHeader(HeaderRequest) returns (TicketHeader) {}
+    rpc GetTickets(HeaderRequest) returns (TicketReponse) {}
+}
